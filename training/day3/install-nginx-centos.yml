@@ -1,0 +1,11 @@
+- name: install extra packagage for enterprise linux  in centos
+  yum: name=epel-release state=latest update_cache=yes
+  notify:
+    - start nginx
+
+- name: install nginx in centos
+  yum: name=nginx state=latest update_cache=yes
+  notify:
+    - start nginx
+
+

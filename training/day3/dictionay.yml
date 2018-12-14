@@ -1,0 +1,33 @@
+- name: use dictionary variable
+  hosts: localhost
+  vars: 
+    greeting_msg: Hello DevOps!
+    proxy_configuration:
+       http_proxy: http://10.20.30.40:8080
+       https_proxy: https://10.20.30.40:8080
+
+    contacts:
+       Ram:
+         name: Ramkrishna
+         mobile: 123-456-7890
+
+       Ganesh: 
+         name: Ganesan
+         mobile: 789-456-1230
+
+  tasks:
+    - name: print proxy configurations
+      #debug: var=item.value
+      #debug: msg="{{item}}"
+      debug: msg="key is {{item.key}} and value is {{item.value}}"
+      with_dict: "{{proxy_configuration}}"
+
+    - name: print all contact details
+      debug: msg="mobile number of {{item.value.name}} is {{item.value.mobile}}"
+      with_dict: "{{contacts}}"
+
+    - debug: var=greeting_msg
+
+      #    - name: install tool with mentioning proxy
+      #      iapt: name=nginx state=latest update_cache=yes
+      #      environment: "{{proxy_configuration}}"

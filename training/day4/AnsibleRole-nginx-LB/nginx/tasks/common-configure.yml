@@ -1,0 +1,3 @@
+- name: create web folder
+  file: path=/var/html state=directory mode=0777
+

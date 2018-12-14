@@ -1,0 +1,24 @@
+- name: list variable and navigation of list
+  hosts: localhost
+
+  vars:
+    software_tools:
+        - vim
+        - tree
+        - cscope
+        - default-jdk
+        - maven
+        - nginx
+
+
+  tasks:
+    - name: print all software tols
+      debug: msg="{{item}}"
+      with_list: "{{software_tools}}"
+
+
+- name: this is second play
+  hosts: all
+  tasks:
+    - name: ping 
+      ping:

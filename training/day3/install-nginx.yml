@@ -1,0 +1,48 @@
+- name: install, configure and deploy webpage in nginx web server
+  hosts: all
+  vars:
+    - greeting_message: DevOps
+    - cm_tool: Ansible
+    - provisioner_tool: Docker
+
+  tasks:
+    - name: install nginx in ubuntu
+      apt: name=nginx state=latest update_cache=yes
+      when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+      notify:
+        - start nginx
+
+    - name: install extra packagage for enterprise linux  in centos
+      yum: name=epel-release state=latest update_cache=yes
+      when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+      notify:
+        - start nginx
+
+    - name: install nginx in centos
+      yum: name=nginx state=latest update_cache=yes
+      when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+      notify:
+        - start nginx
+
+    - name: create web folder
+      file: path=/var/html state=directory mode=0777
+
+    - name: copy configuration file
+      when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+      copy: src=default dest=/etc/nginx/sites-available/default backup=yes
+      notify:
+        - start nginx
+
+    - name: copy configuration file
+      when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+      copy: src=default.conf dest=/etc/nginx/conf.d/default.conf backup=yes
+      notify:
+        - start nginx
+
+    - name: deploy customized web page
+      template: src=index.html.j2 dest=/var/html/index.html
+
+  handlers:    
+    - name: start nginx
+      #service: name=nginx state=restarted enabled=yes
+      shell: service nginx restart

@@ -1,0 +1,10 @@
+- name: use vault feature
+  hosts: localhost
+  vars_files: 
+    - contacts_file
+
+  tasks:
+    - name: print all contact details
+      #debug: msg="mobile number of {{item.value.name}} is {{item.value.mobile}}"
+      debug: msg="{{item.value.name}} ===> {{item.value.mobile}}"
+      with_dict: "{{contacts}}"

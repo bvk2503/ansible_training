@@ -1,0 +1,10 @@
+- name: create containers
+  hosts: localhost
+  tasks:
+          - shell: ansible-playbook provision-container.yml
+
+
+- name: setup nginx
+  hosts: all
+  roles:
+     - nginx

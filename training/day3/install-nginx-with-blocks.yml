@@ -1,0 +1,34 @@
+- name: install, configure and deploy webpage in nginx web server
+  hosts: all
+  vars:
+    - greeting_message: DevOps
+    - cm_tool: Ansible
+    - provisioner_tool: Docker
+
+  tasks:
+  - block:   
+      - include: install-nginx-ubuntu.yml
+      - include: configure-nginx-ubuntu.yml    
+    rescue:
+      - debug: msg="error ocurred while installing nginx in ubuntu"
+    always:
+      - debug: msg="successfully installed, deployed nginx in ubuntu"
+    when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+
+  - block:       
+      - include: install-nginx-centos.yml
+      - include: configure-nginx-centos.yml
+    rescue:
+      - debug: msg="error ocurred while installing nginx in centos"
+    always:
+      - debug: msg="successfully installed, deployed nginx in centos"
+    when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+
+  - block:       
+      - include: common-configure.yml
+      - include: common-deploy.yml
+
+  handlers:    
+    - name: start nginx
+      #service: name=nginx state=restarted enabled=yes
+      shell: service nginx restart

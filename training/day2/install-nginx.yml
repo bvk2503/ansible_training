@@ -1,0 +1,23 @@
+- name: install, configure and deploy webpage in nginx web server
+  hosts: all
+  vars:
+    - greeting_message: DevOps
+    - cm_tool: Ansible
+    - provisioner_tool: Docker
+
+  tasks:
+    - name: install nginx
+      apt: name=nginx state=latest update_cache=yes
+
+    - name: create web folder
+      file: path=/var/html state=directory mode=0777
+
+    - name: copy configuration file
+      copy: src=default dest=/etc/nginx/sites-available/default backup=yes
+
+    - name: deploy customized web page
+      template: src=index.html.j2 dest=/var/html/index.html
+
+    - name: start nginx
+      #service: name=nginx state=restarted enabled=yes
+      shell: service nginx restart

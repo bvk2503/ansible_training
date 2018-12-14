@@ -1,0 +1,5 @@
+- name: test playbook
+  hosts: all
+  tasks:
+    - name: ping the container
+      ping: 

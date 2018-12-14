@@ -1,0 +1,8 @@
+- name: install S/W utilities
+  hosts: all
+  tasks:
+    - name: Install vim editor
+      apt: name=vim state=latest update_cache=yes
+    
+    - name: Install tree utility
+      apt: name=tree state=latest update_cache=yes  

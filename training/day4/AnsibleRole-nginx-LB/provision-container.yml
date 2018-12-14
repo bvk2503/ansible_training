@@ -1,0 +1,51 @@
+- name: provision docker conatainer
+  hosts: localhost
+  gather_facts: False
+
+  pre_tasks:
+    - name: remove existing containers
+      shell: docker rm -f $(docker ps -aq)
+      ignore_errors: True
+
+  tasks:
+ 
+    - name: install python package installer
+      apt: name=python-pip state=latest update_cache=yes
+
+    - name: install docker-py python pkg
+      shell: pip install docker-py
+
+    - name: provision Ubuntu container
+      docker_container:
+          name: "ubuntu{{item}}"
+          hostname: "ubuntu{{item}}"
+          image: "vz/ansible-ubuntu-img1"
+          state: started
+          ports:
+            - "2{{item}}:22"
+            - "8{{item}}:80"
+      with_sequence: start=1 end=2 format="%03i"  
+
+
+    - name: provision CentOS container
+      docker_container:
+          name: "centos{{item}}"
+          hostname: "centOS{{item}}"
+          image: "vz/ansible-centos-img1"
+          state: started
+          ports:
+            - "3{{item}}:22"
+            - "9{{item}}:80"
+      with_sequence: start=1 end=2 format="%03i"  
+            
+    - name: provision Ubuntu load balancer container
+      docker_container:
+          name: load-balancer
+          hostname: load-balancer
+          image: "vz/ansible-ubuntu-img1"
+          state: started
+          ports:
+            - "2222:22"
+            - "80:80"
+
+

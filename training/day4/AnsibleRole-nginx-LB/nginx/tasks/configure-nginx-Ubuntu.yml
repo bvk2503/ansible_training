@@ -1,0 +1,5 @@
+- name: copy configuration file in ubuntu
+  copy: src=default dest=/etc/nginx/sites-available/default backup=yes
+  notify:
+    - start nginx
+

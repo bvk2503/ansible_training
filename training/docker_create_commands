@@ -1,0 +1,7 @@
+docker run -dit --name ubuntu1 --hostname ubuntu1 -p 2001:22 -p 8001:80 vz/ansible-ubuntu-img1
+docker run -dit --name ubuntu2 --hostname ubuntu2 -p 2002:22 -p 8002:80 vz/ansible-ubuntu-img1
+docker run -dit --name ubuntu3 --hostname ubuntu3 -p 2003:22 -p 8003:80 vz/ansible-ubuntu-img1
+docker run -dit --name centos1 --hostname centos1 -p 3001:22 -p 9001:80 vz/ansible-centos-img1
+docker run -dit --name centos2 --hostname centos2 -p 3002:22 -p 9002:80 vz/ansible-centos-img1
+docker run -dit --name centos3 --hostname centos3 -p 3003:22 -p 9003:80 vz/ansible-centos-img1
+

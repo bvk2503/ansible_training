@@ -1,0 +1,10 @@
+- name: docker image build
+  hosts: localhost
+  tasks:
+    - name: Build ansible ubuntu images
+      docker_image:
+        name: "vz/ansible-ubuntu-img2"
+        dockerfile: Dockerfile
+        path: /root/training/day1/ubuntu-ansible
+        state: build
+
